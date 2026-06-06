@@ -1,0 +1,55 @@
+#!/usr/bin/env Dockerfile
+# ═══════════════════════════════════════════════════════════════════════════════
+# Dockerfile.azure — Used ONLY for Azure Container Apps deployment
+#
+# ❗ NOT for local development
+#    Local dev uses docker-compose.yml (port 8000 + volume mounts)
+#
+# Key Azure differences:
+#   - Exposes port 8080 (Azure standard)
+#   - Downloads model from Azure Blob Storage at runtime using SAS URL
+#   - Uses start.sh to download model → then launch FastAPI
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ───────────────────────────────────────────────────────────────────────────────
+# Base image: slim Python 3.10
+# ───────────────────────────────────────────────────────────────────────────────
+FROM python:3.10-slim
+
+# ───────────────────────────────────────────────────────────────────────────────
+# Install system dependencies required by llama.cpp and FastAPI
+# ───────────────────────────────────────────────────────────────────────────────
+RUN apt-get update && apt-get install -y \
+    build-essential \        # required to compile llama.cpp
+    cmake \                  # required for building C++ components
+    git \                    # optional but useful
+    curl \                   # used by some scripts
+    wget \                   # used to download the model
+    ca-certificates \        # required for HTTPS downloads
+    && rm -rf /var/lib/apt/lists/*
+
+# ───────────────────────────────────────────────────────────────────────────────
+# Set working directory inside the container
+# ───────────────────────────────────────────────────────────────────────────────
+WORKDIR /app
+
+# ───────────────────────────────────────────────────────────────────────────────
+# Install Python dependencies FIRST (Docker caching optimization)
+# ───────────────────────────────────────────────────────────────────────────────
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# ───────────────────────────────────────────────────────────────────────────────
+# Copy your actual Python source code
+#
+# IMPORTANT:
+# Your project structure is:
+#   backend/src/sentiment_classification_package/...
+#
+# So we copy ONLY the src folder into /app/src
+# ───────────────────────────────────────────────────────────────────────────────
+COPY src /app/src
+COPY pyproject.toml /app/pyproject.toml
+
+# ───────────────────────────────────────────────────────────────────────────────
+# Create model directory (model is downloaded

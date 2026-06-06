@@ -1,0 +1,1 @@
+https://sentiment-api.mangoforest-7a3dd806.eastus2.azurecontainerapps.io

@@ -1,0 +1,50 @@
+# ============================================
+# FRONTEND-NEXT .gitignore (Robel)
+# ============================================
+
+# ---- Dependencies ----
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# ---- Build output ----
+.next/
+out/
+dist/
+build/
+coverage/
+
+# ---- Logs ----
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---- Environment ----
+.env
+.env.*
+*.env
+
+# ---- Vercel ----
+.vercel
+
+# ---- TypeScript ----
+*.tsbuildinfo
+next-env.d.ts
+
+# ---- OS / Editor ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ---- Misc ----
+*.pem
+*.tmp
+*.bak
+*.swp

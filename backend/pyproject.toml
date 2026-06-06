@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sentiment_api_backend"
+version = "0.1.0"
+description = "Backend package for sentiment classification app"
+authors = [
+    { name = "Robel" }
+]
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "python-multipart",
+    "python-jose",
+    "starlette",
+    "python-dotenv",
+    "requests",
+    "loguru",
+    "numpy",
+    "pandas",
+    "scikit-learn",
+    "llama-cpp-python",
+    "datasets",
+    "huggingface_hub",
+    "psycopg2-binary",
+    "redis",
+    "qdrant-client",
+    "chromadb",
+    "matplotlib",
+    "seaborn",
+    "gunicorn"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]

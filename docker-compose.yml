@@ -1,0 +1,127 @@
+# ============================================
+# DOCKER COMPOSE — FULL MONOREPO ORCHESTRATION
+# sentiment_classification_app_v1
+# ============================================
+
+version: "3.9"
+
+services:
+
+  # ------------------------------------------
+  # BACKEND (FastAPI)
+  # ------------------------------------------
+  backend:
+    build:
+      context: .
+      dockerfile: backend/app/Dockerfile.local
+    container_name: sentiment-backend
+    ports:
+      - "8000:8000"
+    environment:
+      API_JWT_SECRET: ${API_JWT_SECRET}
+      MODEL_PATH: /app/models/llama-2-7b-chat-hf-q4_k_m.gguf
+      DATA_PATH: /app/data/imdb.csv
+      QDRANT_URL: http://qdrant:6333
+      CHROMA_URL: http://chromadb:8000
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+      - ./backend/app:/app
+    depends_on:
+      - redis
+      - db
+      - qdrant
+      - chromadb
+
+  # ------------------------------------------
+  # FRONTEND (Next.js)
+  # ------------------------------------------
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend-next/Dockerfile
+    container_name: sentiment-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    volumes:
+      - ./frontend-next:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  # ------------------------------------------
+  # DATABASE (PostgreSQL) — FUTURE USE
+  # ------------------------------------------
+  db:
+    image: postgres:15
+    container_name: sentiment-db
+    restart: always
+    environment:
+      POSTGRES_USER: sentiment_user
+      POSTGRES_PASSWORD: sentiment_pass
+      POSTGRES_DB: sentiment_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # ------------------------------------------
+  # REDIS CACHE — FUTURE USE
+  # ------------------------------------------
+  redis:
+    image: redis:7
+    container_name: sentiment-redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  # ------------------------------------------
+  # VECTOR DATABASE — QDRANT (Production)
+  # ------------------------------------------
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: sentiment-qdrant
+    restart: always
+    ports:
+      - "6333:6333"   # REST API
+      - "6334:6334"   # gRPC API
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  # ------------------------------------------
+  # VECTOR DATABASE — CHROMADB SERVER (Optional)
+  # ------------------------------------------
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: sentiment-chromadb
+    restart: always
+    ports:
+      - "8001:8000"   # ChromaDB server API
+    volumes:
+      - chroma_data:/chroma
+    # NOTE:
+    # ChromaDB normally runs embedded inside Python.
+    # This server mode is optional and experimental.
+
+  # ------------------------------------------
+  # OPTIONAL: MODEL SERVER (llama.cpp)
+  # ------------------------------------------
+  # model_server:
+  #   image: ghcr.io/ggerganov/llama.cpp:server
+  #   container_name: sentiment-model-server
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - ./models:/models
+  #   command: >
+  #     --model /models/llama-2-7b-chat-hf-q4_k_m.gguf
+
+# ------------------------------------------
+# VOLUMES
+# ------------------------------------------
+volumes:
+  postgres_data:
+  qdrant_data:
+  chroma_data:
