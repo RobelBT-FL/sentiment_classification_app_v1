@@ -1,0 +1,24 @@
+# ============================================
+# FRONTEND DOCKERFILE.localCompose (Robel)
+# ============================================
+
+# 1. Base image
+FROM node:18-bullseye AS base
+WORKDIR /app/frontend-next
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Accept API URL from build args (Compose will pass this)
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
+# 2. Install dependencies
+COPY package.json package-lock.json ./
+RUN npm install
+
+# 3. Copy source code
+COPY . .
+
+# 4. Expose port & run Next.js dev server
+EXPOSE 3000
+CMD ["npm", "run", "dev"]
+

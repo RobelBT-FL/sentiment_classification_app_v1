@@ -2,67 +2,98 @@
 # PROJECT ROOT .dockerignore (Robel)
 # ============================================
 
-# OS / Editor
+# -----------------------------
+# OS / Editor junk
+# -----------------------------
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
 
+# -----------------------------
 # Git
+# -----------------------------
 .git/
 .gitignore
 
+# -----------------------------
 # Python caches
+# -----------------------------
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
+# -----------------------------
 # Virtual environments
+# -----------------------------
 venv/
 env/
 .venv/
 
+# -----------------------------
 # Environment files
-.env
-*.env
+# (IMPORTANT: allow .env for Docker Compose)
+# -----------------------------
+# Do NOT ignore .env — backend needs it
+# .env
+*.env.backup
+*.env.local
 
+# -----------------------------
 # Node / Frontend
+# -----------------------------
 node_modules/
 frontend-next/node_modules/
 npm-debug.log
 yarn-debug.log
 yarn-error.log
 
-# ML Models (REMOVE models/ — backend needs it)
-*.gguf
-*.bin
-*.pt
-*.pth
-*.onnx
-*.h5
+# -----------------------------
+# ML Models
+# (IMPORTANT: DO NOT ignore models/)
+# Backend needs these files inside container
+# -----------------------------
+# *.gguf
+# *.bin
+# *.pt
+# *.pth
+# *.onnx
+# *.h5
 
-# Datasets (REMOVE data/ — backend needs it)
-datasets/
-*.csv
-*.tsv
-*.jsonl
-*.parquet
-*.zip
-*.tar
-*.gz
+# -----------------------------
+# Datasets
+# (IMPORTANT: DO NOT ignore data/)
+# Backend mounts these
+# -----------------------------
+# datasets/
+# *.csv
+# *.tsv
+# *.jsonl
+# *.parquet
+# *.zip
+# *.tar
+# *.gz
 
+# -----------------------------
 # Build artifacts
+# -----------------------------
 build/
 dist/
 *.egg-info/
 *.whl
 
+# -----------------------------
 # Docker artifacts
+# -----------------------------
 docker-data/
 *.tar
 
+# -----------------------------
 # Temporary files
+# -----------------------------
 *.tmp
 *.bak
 *.old
+
+

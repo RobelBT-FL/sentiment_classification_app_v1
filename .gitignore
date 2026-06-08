@@ -2,17 +2,13 @@
 # PROJECT ROOT .gitignore (Robel)
 # ============================================
 
-# -----------------------------
-# OS / Editor junk files
-# -----------------------------
+# OS / Editor junk
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
 
-# -----------------------------
 # Python cache + virtual envs
-# -----------------------------
 __pycache__/
 *.pyc
 *.pyo
@@ -21,24 +17,18 @@ venv/
 env/
 .venv/
 
-# -----------------------------
 # Node / Frontend
-# -----------------------------
 node_modules/
 frontend-next/node_modules/
 npm-debug.log
 yarn-debug.log
 yarn-error.log
 
-# -----------------------------
 # Environment files (never commit secrets)
-# -----------------------------
 .env
 *.env
 
-# -----------------------------
 # ML Models (large, private — DO NOT commit)
-# -----------------------------
 models/
 *.gguf
 *.bin
@@ -47,9 +37,7 @@ models/
 *.onnx
 *.h5
 
-# -----------------------------
 # Datasets (large, private — DO NOT commit)
-# -----------------------------
 data/
 datasets/
 *.csv
@@ -60,29 +48,22 @@ datasets/
 *.tar
 *.gz
 
-# -----------------------------
 # Build artifacts
-# -----------------------------
 build/
 dist/
 *.egg-info/
 *.whl
 
-# -----------------------------
 # Logs
-# -----------------------------
 *.log
 logs/
 
-# -----------------------------
 # Docker artifacts
-# -----------------------------
 docker-data/
 *.tar
 
-# -----------------------------
 # Temporary files
-# -----------------------------
 *.tmp
 *.bak
 *.old
+

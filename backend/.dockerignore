@@ -1,0 +1,67 @@
+# ============================================
+# BACKEND .gitignore (Robel)
+# ============================================
+
+# -----------------------------
+# Python cache / build junk
+# -----------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+*.egg
+*.whl
+build/
+dist/
+
+# -----------------------------
+# Virtual environments
+# -----------------------------
+venv/
+env/
+.venv/
+
+# -----------------------------
+# Environment files (never commit secrets)
+# -----------------------------
+.env
+*.env
+!.env.example   # allow template
+
+# -----------------------------
+# OS / Editor junk
+# -----------------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# -----------------------------
+# Logs
+# -----------------------------
+*.log
+logs/
+
+# -----------------------------
+# Large model/data folders
+# (You mount these as volumes)
+# -----------------------------
+models/
+data/
+
+# -----------------------------
+# Docker / Git
+# -----------------------------
+docker-data/
+.git
+.gitignore
+
+# -----------------------------
+# Misc
+# -----------------------------
+*.tmp
+*.bak
+*.old
+

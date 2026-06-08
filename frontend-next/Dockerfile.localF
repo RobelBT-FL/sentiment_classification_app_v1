@@ -1,0 +1,41 @@
+# 1. Base image
+FROM node:18-bullseye AS base
+WORKDIR /app/frontend-next
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Accept API URL from build args
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
+# 2. Install dependencies
+FROM base AS deps
+WORKDIR /app/frontend-next
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# 3. Build the Next.js app
+FROM base AS builder
+WORKDIR /app/frontend-next
+
+# Copy source code
+COPY . .
+
+# Copy node_modules from deps AFTER copying source
+COPY --from=deps /app/frontend-next/node_modules ./node_modules
+
+# Build Next.js (now includes NEXT_PUBLIC_API_URL)
+RUN npm run build
+
+# 4. Production image
+FROM node:18-bullseye AS runner
+WORKDIR /app/frontend-next
+ENV NODE_ENV=production
+
+# Copy only what is needed for production
+COPY --from=builder /app/frontend-next/public ./public
+COPY --from=builder /app/frontend-next/.next ./.next
+COPY --from=builder /app/frontend-next/node_modules ./node_modules
+COPY --from=builder /app/frontend-next/package.json ./package.json
+
+EXPOSE 3000
+CMD ["npm", "start"]

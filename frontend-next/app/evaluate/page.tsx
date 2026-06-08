@@ -14,7 +14,9 @@ export default function EvaluatePage() {
       const res = await fetch("http://localhost:8000/api/v1/sentiment/evaluate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({}), // your backend expects an EvaluationRequest
+        body: JSON.stringify({
+          dataset_path: "/app/data/imdb.csv"   // ✅ FIXED PATH
+        }),
       });
 
       if (!res.ok) {
@@ -49,3 +51,4 @@ export default function EvaluatePage() {
     </div>
   );
 }
+
