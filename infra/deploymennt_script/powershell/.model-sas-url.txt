@@ -1,0 +1,1 @@
+﻿https://sentimentstore2012.blob.core.windows.net/models/llama-2-7b-chat-hf-q4_k_m.gguf?se=2030-01-01&sp=r&spr=https&sv=2026-04-06&sr=b&sig=Kt6jBktzvFC3B66V0XM%2Bmdm2GqPEf3KudRX3aM14sXA%3D
