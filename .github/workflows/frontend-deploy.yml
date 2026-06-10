@@ -1,7 +1,7 @@
 ﻿name: Frontend CI/CD — Build and Deploy Next.js to Azure
 
 # -------------------------------------------------------------------
-# WORKFLOW PURPOSE
+# WORKFLOW PURPOSE - greta
 # -------------------------------------------------------------------
 # This GitHub Action handles the full CI/CD pipeline for the frontend:
 # 1. TEST  → Validate the Next.js project builds
