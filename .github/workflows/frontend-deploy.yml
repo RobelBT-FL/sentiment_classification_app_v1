@@ -10,7 +10,7 @@
 # 3. PUSH  → Push the built image to Azure Container Registry (ACR)
 # 4. DEPLOY → Deploy updated frontend container to Azure Container Apps
 #
-# Triggered automatically on every push to the main branch.
+# Triggered automatically on every push to the main branch. good
 # -------------------------------------------------------------------
 
 on:
