@@ -79,7 +79,7 @@ jobs:
       - name: Deploy Backend to Azure Container Apps
         uses: azure/container-apps-deploy-action@v1
         with:
-          containerAppName: sentiment-backend-api-app
+          containerAppName: sentiment-aca-env
           resourceGroup: sentimentmyresoursehelen2012
           imageToDeploy: ${{ env.ACR_IMAGE }}:latest
           environmentVariables: |
