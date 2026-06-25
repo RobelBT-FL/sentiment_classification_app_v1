@@ -38,7 +38,7 @@ pydantic
 ###############################################################
 
 psycopg2-binary
-redis
+#redis
 qdrant-client
 chromadb
 
